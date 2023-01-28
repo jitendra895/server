@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -40,7 +40,7 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = { id, question, answers };
-    let res = await fetch("https://server-ue6g.vercel.app/api/addQuestions", {
+    let res = await fetch("/api/addQuestions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,12 +54,14 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await fetch(`http://localhost:3000/api/getQuestions?page=${page}`);
+      const res = await fetch(
+        `/api/getQuestions?page=${page}`
+      );
       const json = await res.json();
       setData(json.question);
       setTotalPages(json.totalPages);
       setLoading(false);
-    }
+    };
     fetchData();
   }, [page]);
 
@@ -67,13 +69,13 @@ export default function Home() {
     if (page > 1) {
       setPage(page - 1);
     }
-  }
+  };
 
   const handleNext = () => {
     if (page < totalPages) {
       setPage(page + 1);
     }
-  }
+  };
 
   return (
     <>
@@ -99,7 +101,7 @@ export default function Home() {
           <label>
             Question:
             <input
-            className="question"
+              className="question"
               type="text"
               value={question}
               onChange={handleQuestionChange}
@@ -112,7 +114,7 @@ export default function Home() {
             <label>
               Answer {index + 1}:
               <input
-              className="answer"
+                className="answer"
                 type="text"
                 value={answer.text}
                 onChange={(event) => handleAnswerChange(event, index)}
@@ -127,16 +129,31 @@ export default function Home() {
           </div>
         ))}
         <br />
-        <button className="button" type="submit">Submit</button>
+        <button className="button" type="submit">
+          Submit
+        </button>
       </form>
       <div>
         <ul>
-      {data.map(item => <div key={item._id}><li>{item.id}.{item.question}</li></div>)}</ul>
-      {loading && <p>Loading...</p>}
-      <button onClick={handlePrevious} disabled={loading || page === 1}>Previous</button>
-      <button onClick={handleNext} disabled={loading || page === totalPages}>Next</button>
-      <p>Page {page} of {totalPages}</p>
-    </div>
+          {data.map((item) => (
+            <div key={item._id}>
+              <li>
+                {item.id}.{item.question}
+              </li>
+            </div>
+          ))}
+        </ul>
+        {loading && <p>Loading...</p>}
+        <button onClick={handlePrevious} disabled={loading || page === 1}>
+          Previous
+        </button>
+        <button onClick={handleNext} disabled={loading || page === totalPages}>
+          Next
+        </button>
+        <p>
+          Page {page} of {totalPages}
+        </p>
+      </div>
     </>
   );
 }
