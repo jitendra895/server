@@ -11,16 +11,24 @@ function runMiddleware(req, res, fn) {
       if (result instanceof Error) {
         return reject(result);
       }
-
       return resolve(result);
     });
   });
 }
 
+// const handler = async (req, res) => {
+//   await runMiddleware(req, res, cors);
+//   let question = await QuestionDetails.find();
+//   res.status(200).json({ question });
+// };
 const handler = async (req, res) => {
   await runMiddleware(req, res, cors);
-  let question = await QuestionDetails.find();
-  res.status(200).json({ question });
+  let page = parseInt(req.query.page) || 1;
+  let limit = parseInt(req.query.limit) || 15;
+  let skip = (page - 1) * limit;
+  let question = await QuestionDetails.find().skip(skip).limit(limit).sort({_id: -1});
+  let totalPages = Math.ceil(await QuestionDetails.countDocuments() / limit);
+  res.status(200).json({ question, totalPages });
 };
 
 export default connectDb(handler);
