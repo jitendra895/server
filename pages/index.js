@@ -40,7 +40,7 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = { id, question, answers };
-    let res = await fetch("/api/addQuestions", {
+    let res = await fetch("https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/addQuestions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export default function Home() {
     const fetchData = async () => {
       setLoading(true);
       const res = await fetch(
-        `/api/getQuestions?page=${page}`
+        `https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/getQuestions?page=${page}`
       );
       const json = await res.json();
       setData(json.question);
