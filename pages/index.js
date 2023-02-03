@@ -1,5 +1,6 @@
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
+import { ProgressBar } from "react-loader-spinner";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -40,13 +41,16 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = { id, question, answers };
-    let res = await fetch("https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/addQuestions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(result),
-    });
+    let res = await fetch(
+      "https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/addQuestions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result),
+      }
+    );
     let response = await res.json();
     console.log(response);
   };
@@ -85,7 +89,6 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <form onSubmit={handleSubmit}>
         <div className="questionContainer">
           <label>
@@ -134,25 +137,59 @@ export default function Home() {
         </button>
       </form>
       <div>
-        <ul>
-          {data.map((item) => (
-            <div key={item._id}>
-              <li>
-                {item.id}.{item.question}
-              </li>
-            </div>
-          ))}
-        </ul>
-        {loading && <p>Loading...</p>}
-        <button onClick={handlePrevious} disabled={loading || page === 1}>
+      <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Question</th>
+        {/* <th>Answer</th> */}
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.map((item) => (
+       
+        <tr key={item._id}>
+          <td>{item.id}</td>
+          <td>{item.question}</td>
+ {/* <td></td> */}
+          <td>
+            <button className="delete-button">Delete</button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+      </div>
+      {loading && (
+        <ProgressBar
+        height="80"
+        width="80"
+        ariaLabel="progress-bar-loading"
+        wrapperStyle={{marginLeft:"40%"}}
+        wrapperClass="progress-bar-wrapper"
+        borderColor = '#F4442E'
+        barColor = '#51E5FF'
+      />
+      )}
+      <div className="pagination">
+        <button
+          className="paginationButton"
+          onClick={handlePrevious}
+          disabled={loading || page === 1}
+        >
           Previous
-        </button>
-        <button onClick={handleNext} disabled={loading || page === totalPages}>
-          Next
         </button>
         <p>
           Page {page} of {totalPages}
         </p>
+        <button
+          className="paginationButton"
+          onClick={handleNext}
+          disabled={loading || page === totalPages}
+        >
+          Next
+        </button>
       </div>
     </>
   );

@@ -67,3 +67,96 @@ button:hover {
   /* display: flex; */
   justify-content: center;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  /* margin: 2px; */
+  align-items: center;
+}
+
+.paginationButton {
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px;
+}
+
+.paginationButton:hover {
+  background-color: lightblue;
+}
+
+.paginationButton:active {
+  background-color: darkblue;
+}
+
+.paginationButton:disabled {
+  background-color: gray;
+  color: lightgray;
+  cursor: not-allowed;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+ th {
+  border: 1px solid gray;
+  padding: 10px;
+  text-align: left;
+ }
+
+ th:first-child {
+  width: 10%;
+  font-weight: bold;
+}
+
+th:nth-child(2) {
+  width: 60%;
+}
+
+th:last-child {
+  width: 20%;
+  text-align: center;
+}
+
+
+td {
+  border: 1px solid gray;
+  padding: 10px;
+  text-align: left;
+}
+
+td:first-child {
+  width: 10%;
+  font-weight: bold;
+}
+
+td:nth-child(2) {
+  width: 60%;
+}
+
+td:last-child {
+  width: 20%;
+  text-align: center;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+
+.delete-button:active {
+  background-color: lightred;
+}
