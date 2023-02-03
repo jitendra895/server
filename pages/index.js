@@ -54,7 +54,28 @@ export default function Home() {
     let response = await res.json();
     console.log(response);
   };
-
+  const handleDelete = async (id) => {
+    try {
+      // setDeleteLoading(true);
+      const res = await fetch(
+        `https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/deleteQuestion/${id}`
+      );
+      console.log(res);
+      // console.log(res.data);
+      // if (res) {
+      //   setDeleteLoading(false);
+      //   setDeleteAlert(true);
+      // } else {
+      //   setDeleteLoading(false);
+      //   setDeleteError(true);
+      // }
+      setData(data.filter((item) => item._id !== id));
+    } catch (error) {
+      // setDeleteError(true);
+      // setDeleteLoading(false);
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -137,40 +158,44 @@ export default function Home() {
         </button>
       </form>
       <div>
-      <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Question</th>
-        {/* <th>Answer</th> */}
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {data.map((item) => (
-       
-        <tr key={item._id}>
-          <td>{item.id}</td>
-          <td>{item.question}</td>
- {/* <td></td> */}
-          <td>
-            <button className="delete-button">Delete</button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Question</th>
+              <th>Answer</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item) => {
+              const correctAnswer = item.answers.find(
+                (ans) => ans.correct === true
+              );
+              return (
+                <tr key={item._id}>
+                  <td>{item.id}</td>
+                  <td>{item.question}</td>
+                  <td>{correctAnswer.text}</td>
+                  <td>
+                    <button className="delete-button"  onClick={() => handleDelete(item._id)}>Delete</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
       {loading && (
         <ProgressBar
-        height="80"
-        width="80"
-        ariaLabel="progress-bar-loading"
-        wrapperStyle={{marginLeft:"40%"}}
-        wrapperClass="progress-bar-wrapper"
-        borderColor = '#F4442E'
-        barColor = '#51E5FF'
-      />
+          height="80"
+          width="80"
+          ariaLabel="progress-bar-loading"
+          wrapperStyle={{ marginLeft: "40%" }}
+          wrapperClass="progress-bar-wrapper"
+          borderColor="#F4442E"
+          barColor="#51E5FF"
+        />
       )}
       <div className="pagination">
         <button
