@@ -58,7 +58,7 @@ export default function Home() {
     try {
       // setDeleteLoading(true);
       const res = await fetch(
-        `https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/deleteQuestion/${id}`
+        `/api/deleteQuestion/${id}`
       );
       console.log(res);
       // console.log(res.data);
