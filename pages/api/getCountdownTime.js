@@ -19,7 +19,7 @@ function runMiddleware(req, res, fn) {
 const handler = async (req, res) => {
   await runMiddleware(req, res, cors);
 
-  let time = await CountDownTime.find();
+  let time = await CountDownTime.find().sort({ _id: -1 });
   res.status(200).json({ time });
 };
 

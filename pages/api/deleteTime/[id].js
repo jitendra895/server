@@ -1,4 +1,4 @@
-import QuestionDetails from "../../../models/questions";
+import CountDownTime from "../../../models/countDownTime";
 import connectDb from "../../../MongodbConn/mongodb";
 import Cors from "cors";
 
@@ -25,11 +25,11 @@ const handler = async (req, res) => {
     return res.status(400).send({ error: "ID is required", success: false });
   }
   try {
-    const question = await QuestionDetails.findByIdAndDelete(id);
-    if (!question) {
+    const time = await CountDownTime.findByIdAndDelete(id);
+    if (!time) {
       return res
         .status(404)
-        .send({ error: "question not found", success: false });
+        .send({ error: "time not found", success: false });
     }
     res.status(200).send({ success: true });
   } catch (error) {

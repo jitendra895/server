@@ -1,12 +1,20 @@
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
-import { ProgressBar } from "react-loader-spinner";
+import { ProgressBar, RotatingLines } from "react-loader-spinner";
+import MyAlert from "../components/alert";
+import Navbar from "../components/navbar"
 
 export default function Home() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [deleteing, setDeleteing] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
   const [id, setId] = useState("1");
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([
@@ -39,7 +47,15 @@ export default function Home() {
   };
 
   const handleSubmit = async (e) => {
+    setUploading(true);
     e.preventDefault();
+    const selectedAnswer = answers.find((answer) => answer.correct === true);
+    const answerText = answers.find((answer) => answer.text !== "");
+    if (!id || !question || !answers || !selectedAnswer || !answerText) {
+      alert("Please fill all fields");
+      setUploading(false);
+      return;
+    }
     const result = { id, question, answers };
     let res = await fetch(
       "https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/addQuestions",
@@ -52,30 +68,42 @@ export default function Home() {
       }
     );
     let response = await res.json();
-    console.log(response);
-  };
-  const handleDelete = async (id) => {
-    try {
-      // setDeleteLoading(true);
-      const res = await fetch(
-        `/api/deleteQuestion/${id}`
-      );
-      console.log(res);
-      // console.log(res.data);
-      // if (res) {
-      //   setDeleteLoading(false);
-      //   setDeleteAlert(true);
-      // } else {
-      //   setDeleteLoading(false);
-      //   setDeleteError(true);
-      // }
-      setData(data.filter((item) => item._id !== id));
-    } catch (error) {
-      // setDeleteError(true);
-      // setDeleteLoading(false);
-      console.log(error);
+    if (response.success) {
+      setSuccess(true);
+      setUploading(false);
+      setId("1");
+      setQuestion("");
+      setAnswers([
+        { id: "1", text: "", correct: false },
+        { id: "2", text: "", correct: false },
+        { id: "3", text: "", correct: false },
+        { id: "4", text: "", correct: false },
+      ]);
+    } else {
+      setError(true);
+      setUploading(false);
     }
   };
+
+  const handleDelete = async (id) => {
+    try {
+      setDeleteing(true);
+      const res = await fetch(`/api/deleteQuestion/${id}`);
+      if (res.ok) {
+        setDeleteSuccess(true);
+        setDeleteing(false);
+        console.log(res.ok);
+      } else {
+        setDeleteing(false);
+        setDeleteError(true);
+      }
+      setData(data.filter((item) => item._id !== id));
+    } catch (error) {
+      setDeleteing(false);
+      setDeleteError(true);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -110,6 +138,25 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Navbar/>
+      <h1>Questions</h1>
+      <MyAlert
+        success={success}
+        setSuccess={setSuccess}
+        error={error}
+        setError={setError}
+      />
+      {uploading && (
+        <div className="uploading">
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="questionContainer">
           <label>
@@ -157,6 +204,23 @@ export default function Home() {
           Submit
         </button>
       </form>
+      {deleteing && (
+        <div className="deleting">
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
+      )}
+      <MyAlert
+        deleteSuccess={deleteSuccess}
+        setDeleteSuccess={setDeleteSuccess}
+        deleteError={deleteError}
+        setDeleteError={setDeleteError}
+      />
       <div>
         <table>
           <thead>
@@ -178,7 +242,12 @@ export default function Home() {
                   <td>{item.question}</td>
                   <td>{correctAnswer.text}</td>
                   <td>
-                    <button className="delete-button"  onClick={() => handleDelete(item._id)}>Delete</button>
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );

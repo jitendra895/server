@@ -160,3 +160,87 @@ td:last-child {
 .delete-button:active {
   background-color: lightred;
 }
+.uploading{
+  position: absolute;
+    top: 30%;
+    left: 40%;
+    background-color: white;
+}
+.deleting{
+  position: fixed;
+    /* top: 30; */
+    left: 50%;
+    bottom: 40%;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f2f2f2;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-right: 1rem;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+a:hover {
+  color: #fff;
+  background-color: #333;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+
+.countdownTimeForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: #f2f2f2; */
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.timeLabel {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.timeInput {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border-radius: 4px;
+  border: 1px solid #333;
+}
+
+.timeButton {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  font-size: 1.2rem;
+}
+h1 {
+  text-align: center;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  /* border-bottom: 1px solid black; */
+  margin: 8px;
+}

@@ -1,4 +1,4 @@
-import QuestionDetails from "../../../models/questions";
+import Winners from "../../../models/winnerResult";
 import connectDb from "../../../MongodbConn/mongodb";
 import Cors from "cors";
 
@@ -12,7 +12,6 @@ function runMiddleware(req, res, fn) {
       if (result instanceof Error) {
         return reject(result);
       }
-
       return resolve(result);
     });
   });
@@ -25,11 +24,11 @@ const handler = async (req, res) => {
     return res.status(400).send({ error: "ID is required", success: false });
   }
   try {
-    const question = await QuestionDetails.findByIdAndDelete(id);
-    if (!question) {
+    const winner = await Winners.findByIdAndDelete(id);
+    if (!winner) {
       return res
         .status(404)
-        .send({ error: "question not found", success: false });
+        .send({ error: "winner not found", success: false });
     }
     res.status(200).send({ success: true });
   } catch (error) {
