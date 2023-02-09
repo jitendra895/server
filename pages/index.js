@@ -15,6 +15,7 @@ export default function Home() {
   const [deleteing, setDeleteing] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
+  const [refresh, setRefresh] = useState(1);
   const [id, setId] = useState("1");
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([
@@ -58,7 +59,7 @@ export default function Home() {
     }
     const result = { id, question, answers };
     let res = await fetch(
-      "https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/addQuestions",
+      "https://kbw.vercel.app/api/addQuestions",
       {
         method: "POST",
         headers: {
@@ -69,6 +70,7 @@ export default function Home() {
     );
     let response = await res.json();
     if (response.success) {
+      setRefresh(refresh + 1)
       setSuccess(true);
       setUploading(false);
       setId("1");
@@ -90,15 +92,18 @@ export default function Home() {
       setDeleteing(true);
       const res = await fetch(`/api/deleteQuestion/${id}`);
       if (res.ok) {
+        setRefresh(refresh + 1)
         setDeleteSuccess(true);
         setDeleteing(false);
         console.log(res.ok);
       } else {
+        setRefresh(refresh + 1)
         setDeleteing(false);
         setDeleteError(true);
       }
       setData(data.filter((item) => item._id !== id));
     } catch (error) {
+      setRefresh(refresh + 1)
       setDeleteing(false);
       setDeleteError(true);
     }
@@ -108,7 +113,7 @@ export default function Home() {
     const fetchData = async () => {
       setLoading(true);
       const res = await fetch(
-        `https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/getQuestions?page=${page}`
+        `https://kbw.vercel.app/api/getQuestions?page=${page}`
       );
       const json = await res.json();
       setData(json.question);
@@ -116,7 +121,7 @@ export default function Home() {
       setLoading(false);
     };
     fetchData();
-  }, [page]);
+  }, [page,refresh]);
 
   const handlePrevious = () => {
     if (page > 1) {

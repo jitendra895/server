@@ -14,6 +14,8 @@ const Winner = () => {
   const [deleted, setDeleted] = useState(false);
   const [uploadError, setUploadError] = useState(false);
   const [deletedError,setDeletedError]= useState(false);
+  const [refresh, setRefresh] = useState(1);
+
 
   const handleDateChange = (event) => {
     setDate(event.target.value);
@@ -31,7 +33,7 @@ const Winner = () => {
       return;
     }
     let res = await fetch(
-      "https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/addWinner",
+      "https://kbw.vercel.app/api/addWinner",
       {
         method: "POST",
         headers: {
@@ -43,6 +45,7 @@ const Winner = () => {
     let response = await res.json();
     if (response.success) {
       console.log(response);
+      setRefresh(refresh + 1)
       setUploading(false);
       setUploaded(true)
     } else {
@@ -55,7 +58,7 @@ const Winner = () => {
     setLoading(true);
     const fetchData = async () => {
       const res = await fetch(
-        "https://server-ue6g-nbwu9zm3t-jitendra895.vercel.app/api/getWinner"
+        "https://kbw.vercel.app/api/getWinner"
       );
       const json = await res.json();
       setData(json.winner);
@@ -65,22 +68,25 @@ const Winner = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [refresh]);
 
   const handleDelete = async (id) => {
     try {
       setDeleteing(true);
       const res = await fetch(`/api/deleteWinner/${id}`);
       if (res.ok) {
+        setRefresh(refresh + 1)
         setDeleted(true)
         setDeleteing(false);
         console.log(res.ok);
       } else {
+        setRefresh(refresh + 1)
         setDeleteing(false);
         setDeletedError(true);
       }
       setData(data.filter((item) => item._id !== id));
     } catch (error) {
+      setRefresh(refresh + 1)
       setDeleteing(false);
       setDeletedError(true);
       console.log(error);

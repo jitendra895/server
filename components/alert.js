@@ -170,7 +170,7 @@ const MyAlert = ({
             }
             sx={{ mb: 2 }}
           >
-           delete operation successful!
+           Delete operation successful!
           </Alert>
         </Collapse>
       </div>
