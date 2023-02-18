@@ -13,9 +13,8 @@ const Winner = () => {
   const [uploaded, setUploaded] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const [uploadError, setUploadError] = useState(false);
-  const [deletedError,setDeletedError]= useState(false);
+  const [deletedError, setDeletedError] = useState(false);
   const [refresh, setRefresh] = useState(1);
-
 
   const handleDateChange = (event) => {
     setDate(event.target.value);
@@ -32,34 +31,29 @@ const Winner = () => {
       setUploading(false);
       return;
     }
-    let res = await fetch(
-      "https://kbw.vercel.app/api/addWinner",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    let res = await fetch("https://kbw.vercel.app/api/addWinner", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     let response = await res.json();
     if (response.success) {
       console.log(response);
-      setRefresh(refresh + 1)
+      setRefresh(refresh + 1);
       setUploading(false);
-      setUploaded(true)
+      setUploaded(true);
     } else {
       setUploading(false);
-      setUploadError(true)
+      setUploadError(true);
     }
   };
 
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
-      const res = await fetch(
-        "https://kbw.vercel.app/api/getWinner"
-      );
+      const res = await fetch("https://kbw.vercel.app/api/getWinner");
       const json = await res.json();
       setData(json.winner);
       console.log(json.winner);
@@ -75,18 +69,18 @@ const Winner = () => {
       setDeleteing(true);
       const res = await fetch(`/api/deleteWinner/${id}`);
       if (res.ok) {
-        setRefresh(refresh + 1)
-        setDeleted(true)
+        setRefresh(refresh + 1);
+        setDeleted(true);
         setDeleteing(false);
         console.log(res.ok);
       } else {
-        setRefresh(refresh + 1)
+        setRefresh(refresh + 1);
         setDeleteing(false);
         setDeletedError(true);
       }
       setData(data.filter((item) => item._id !== id));
     } catch (error) {
-      setRefresh(refresh + 1)
+      setRefresh(refresh + 1);
       setDeleteing(false);
       setDeletedError(true);
       console.log(error);
@@ -150,7 +144,7 @@ const Winner = () => {
           />
         </div>
       )}
-<MyAlert
+      <MyAlert
         deleted={deleted}
         setDeleted={setDeleted}
         deletedError={deletedError}

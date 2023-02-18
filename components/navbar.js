@@ -18,6 +18,16 @@ const Navbar = () => (
          Winners
         </Link>
       </li>
+      <li>
+        <Link href="/users">
+         Users
+        </Link>
+      </li>
+      <li>
+        <Link href="/scorecard">
+         ScoreCard
+        </Link>
+      </li>
     </ul>
   </nav>
 );

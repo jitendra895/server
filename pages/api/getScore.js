@@ -1,5 +1,5 @@
 import connectDb from "../../MongodbConn/mongodb";
-import User from "../../models/users";
+import Result from "../../models/result";
 import Cors from "cors";
 
 const cors = Cors({
@@ -19,11 +19,11 @@ function runMiddleware(req, res, fn) {
 
 const handler = async (req, res) => {
   await runMiddleware(req, res, cors);
-  const { name } = req.query
-  const regex = new RegExp(name, 'i');
-  const users = await User.find({ name: regex })
-  const filteredUsers = users.filter(user => user.name === name);
-  res.status(200).json({ filteredUsers,users});
+  const { score } = req.query
+  const regex = new RegExp(score, 'i');
+  const scoreCard = await Result.find({ score: regex }).sort({_id: -1})
+  const filteredScore =scoreCard.filter(score => score.score === score);
+  res.status(200).json({ filteredScore,scoreCard});
 };
 
 export default connectDb(handler);
