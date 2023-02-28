@@ -16,7 +16,7 @@ export default function Home() {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
   const [refresh, setRefresh] = useState(1);
-  const [id, setId] = useState("1");
+  // const [id, setId] = useState("1");
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([
     { id: "1", text: "", correct: false },
@@ -35,9 +35,9 @@ export default function Home() {
     setAnswers(newAnswers);
   };
 
-  const handleIdChange = (event) => {
-    setId(event.target.value);
-  };
+  // const handleIdChange = (event) => {
+  //   setId(event.target.value);
+  // };
 
   const handleCorrectAnswerChange = (event, index) => {
     const newAnswers = [...answers];
@@ -52,12 +52,12 @@ export default function Home() {
     e.preventDefault();
     const selectedAnswer = answers.find((answer) => answer.correct === true);
     const answerText = answers.find((answer) => answer.text !== "");
-    if (!id || !question || !answers || !selectedAnswer || !answerText) {
+    if ( !question || !answers || !selectedAnswer || !answerText) {
       alert("Please fill all fields");
       setUploading(false);
       return;
     }
-    const result = { id, question, answers };
+    const result = { question, answers };
     let res = await fetch(
       "https://kbw.vercel.app/api/addQuestions",
       {
@@ -73,7 +73,7 @@ export default function Home() {
       setRefresh(refresh + 1)
       setSuccess(true);
       setUploading(false);
-      setId("1");
+      // setId("1");
       setQuestion("");
       setAnswers([
         { id: "1", text: "", correct: false },
@@ -164,7 +164,7 @@ export default function Home() {
       )}
       <form onSubmit={handleSubmit}>
         <div className="questionContainer">
-          <label>
+          {/* <label>
             Id:
             <select value={id} onChange={handleIdChange} className="id">
               {[...Array(15)].map((_, i) => (
@@ -173,7 +173,7 @@ export default function Home() {
                 </option>
               ))}
             </select>
-          </label>
+          </label> */}
           <label>
             Question:
             <input

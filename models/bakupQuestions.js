@@ -1,4 +1,3 @@
-// import mongoose from "mongoose";
 const mongoose = require("mongoose");
 
 const answerSchema = new mongoose.Schema({
@@ -15,5 +14,5 @@ const questionSchema = new mongoose.Schema({
   answers: [answerSchema],
 });
 
-export default mongoose.models.QuestionDetails ||
-  mongoose.model("QuestionDetails", questionSchema);
+export default mongoose.models.BackupQuestions ||
+  mongoose.model("BackupQuestions", questionSchema);

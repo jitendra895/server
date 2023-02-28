@@ -26,7 +26,8 @@ const handler = async (req, res) => {
     .limit(limit)
     .sort({ _id: -1 });
   let totalPages = Math.ceil((await QuestionDetails.countDocuments()) / limit);
-  res.status(200).json({ question, totalPages });
+  let fullQuestions = await QuestionDetails.find()
+  res.status(200).json({ question, totalPages,fullQuestions});
 };
 
 export default connectDb(handler);
