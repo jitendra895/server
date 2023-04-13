@@ -27,7 +27,7 @@ const Winner = () => {
     e.preventDefault();
     const data = { date, userName };
     if (!date || !userName) {
-      alert("Please fill all fields");
+      alert("Please fill all fields.");
       setUploading(false);
       return;
     }
