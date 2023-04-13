@@ -56,7 +56,7 @@ const CountdownTime = () => {
     setLoading(true);
     const fetchData = async () => {
       const res = await fetch(
-        "https://server-ue6g.vercel.app/api/getCountdownTime"
+        "/api/getCountdownTime"
       );
       const json = await res.json();
       setData(json.time);
