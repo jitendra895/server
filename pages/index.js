@@ -16,7 +16,6 @@ export default function Home() {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
   const [refresh, setRefresh] = useState(1);
-  // const [id, setId] = useState("1");
   const [question, setQuestion] = useState("");
   const [answers, setAnswers] = useState([
     { id: "1", text: "", correct: false },
@@ -35,9 +34,7 @@ export default function Home() {
     setAnswers(newAnswers);
   };
 
-  // const handleIdChange = (event) => {
-  //   setId(event.target.value);
-  // };
+
 
   const handleCorrectAnswerChange = (event, index) => {
     const newAnswers = [...answers];
@@ -59,7 +56,7 @@ export default function Home() {
     }
     const result = { question, answers };
     let res = await fetch(
-      "https://kbw.vercel.app/api/addQuestions",
+      "/api/addQuestions",
       {
         method: "POST",
         headers: {
@@ -164,16 +161,6 @@ export default function Home() {
       )}
       <form onSubmit={handleSubmit}>
         <div className="questionContainer">
-          {/* <label>
-            Id:
-            <select value={id} onChange={handleIdChange} className="id">
-              {[...Array(15)].map((_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}
-                </option>
-              ))}
-            </select>
-          </label> */}
           <label>
             Question:
             <input
@@ -237,13 +224,13 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => {
+            {data.map((item,index) => {
               const correctAnswer = item.answers.find(
                 (ans) => ans.correct === true
               );
               return (
                 <tr key={item._id}>
-                  <td>{item.id}</td>
+                  <td>{index + 1}</td>
                   <td>{item.question}</td>
                   <td>{correctAnswer.text}</td>
                   <td>

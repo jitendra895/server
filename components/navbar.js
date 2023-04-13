@@ -28,6 +28,11 @@ const Navbar = () => (
          ScoreCard
         </Link>
       </li>
+      <li>
+        <Link href="/transferData">
+         BakupQuestions
+        </Link>
+      </li>
     </ul>
   </nav>
 );

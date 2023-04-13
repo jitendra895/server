@@ -18,17 +18,16 @@ function runMiddleware(req, res, fn) {
 
 const handler = async (req, res) => {
   await runMiddleware(req, res, cors);
-  // let page = parseInt(req.query.page) || 1;
-  // let limit = parseInt(req.query.limit) || 15;
-  // let skip = (page - 1) * limit;
-  // let question = await BakupQuestions .find()
-  //   .skip(skip)
-  //   .limit(limit)
-  //   .sort({ _id: -1 });
-  // let totalPages = Math.ceil((await BakupQuestions.countDocuments()) / limit);
-  // res.status(200).json({ question, totalPages,});
-  let question = await BakupQuestions .find().sort({ _id: -1 });
-  res.status(200).json({ question});
+  let page = parseInt(req.query.page) || 1;
+  let limit = parseInt(req.query.limit) || 15;
+  let skip = (page - 1) * limit;
+  let question = await BakupQuestions .find()
+    .skip(skip)
+    .limit(limit)
+    .sort({ _id: -1 });
+  let totalPages = Math.ceil((await BakupQuestions.countDocuments()) / limit);
+  let fullQuestions = await BakupQuestions .find().sort({ _id: -1 });
+  res.status(200).json({ question,fullQuestions,totalPages});
 };
 
 export default connectDb(handler);

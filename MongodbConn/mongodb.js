@@ -5,7 +5,7 @@ const connectDb = handler => async (req, res ) => {
     return handler(req, res);
   }
   await mongoose.connect(
-    "mongodb+srv://jitendra123:910920Jk@cluster0.am1ehwz.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://jbpinfosolution:welcome123@cluster0.eksxsc4.mongodb.net/?retryWrites=true&w=majority"
   );
   return handler(req, res);
 };

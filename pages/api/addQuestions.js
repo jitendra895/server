@@ -1,4 +1,4 @@
-import connectDb from "../../MongodbConn/mongodb"
+import connectDb from "../../MongodbConn/mongodb";
 import QuestionDetails from "../../models/questions";
 import Cors from "cors";
 
@@ -18,19 +18,27 @@ function runMiddleware(req, res, fn) {
 }
 const handler = async (req, res) => {
   await runMiddleware(req, res, cors);
-    try {
-      if (req.method == "POST") {
-        console.log(req.body);
-        let question = new QuestionDetails(req.body);
-        await question.save();
-        res.status(200).json({ success:true, status: "success" });
+  try {
+    if (req.method == "POST") {
+      console.log(req.body);
+      const data = req.body;
+      if (Array.isArray(data)) {
+        await QuestionDetails.insertMany(data);
       } else {
-        res.status(404).json({success:false, error: "question already registerd" });
+        let question = new QuestionDetails(data);
+        await question.save();
       }
-    } catch (error) {
-      res.status(404).json({success:false, error: "question already registerd" });
+      res.status(200).json({ success: true, status: "success" });
+    } else {
+      res
+        .status(404)
+        .json({ success: false, error: "question already registerd" });
     }
-    
-  };
-  
-  export default connectDb(handler);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ success: false, error: "question already registerd" });
+  }
+};
+
+export default connectDb(handler);

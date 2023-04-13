@@ -31,7 +31,7 @@ const Winner = () => {
       setUploading(false);
       return;
     }
-    let res = await fetch("https://kbw.vercel.app/api/addWinner", {
+    let res = await fetch("api/addWinner", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
